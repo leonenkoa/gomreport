@@ -7,6 +7,9 @@ import (
 // BusProtocol models the bus protocol used by a hardware component.
 type BusProtocol int
 
+// MediaType models the media type used by a hardware component.
+type MediaType int
+
 // Status models the status of a hardware component (e.g. OK, Critical, NonCritical).
 type Status int
 
@@ -44,6 +47,7 @@ const (
 	LayoutRAID1  Layout = 4
 	LayoutRAID5  Layout = 64
 	LayoutRAID6  Layout = 128
+	LayoutRAID10 Layout = 512
 	LayoutRAID60 Layout = 262144
 
 	BusProtocolSCSI BusProtocol = 1
@@ -51,6 +55,9 @@ const (
 	BusProtocolSATA BusProtocol = 7
 	BusProtocolSAS  BusProtocol = 8
 	BusProtocolPCIe BusProtocol = 9
+
+	MediaTypeHDD MediaType = 1
+	MediaTypeSSD MediaType = 2
 
 	// NaN is an enum for fields that use the string 'N/A'.
 	NaN = -1 << 31
@@ -231,6 +238,7 @@ type VDisk struct {
 	State       State       `xml:"ObjState"`
 	Status      Status      `xml:"ObjStatus"`
 	Size        int         `xml:"Length"`
+	MediaType   MediaType   `xml:"MediaType"`
 }
 
 // PDisk models a physical disk described by omreport.
@@ -377,6 +385,17 @@ func (b *BusProtocol) String() string {
 	}
 }
 
+func (m *MediaType) String() string {
+	switch *m {
+	case MediaTypeHDD:
+		return "HDD"
+	case MediaTypeSSD:
+		return "SSD"
+	default:
+		return fmt.Sprintf("Unknown media type code %s", string(*m))
+	}
+}
+
 func (l *Layout) String() string {
 	switch *l {
 	case LayoutRAID0:
@@ -387,6 +406,8 @@ func (l *Layout) String() string {
 		return "RAID-5"
 	case LayoutRAID6:
 		return "RAID-6"
+	case LayoutRAID10:
+		return "RAID-10"
 	case LayoutRAID60:
 		return "RAID-60"
 	default:
