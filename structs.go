@@ -399,17 +399,17 @@ func (m *MediaType) String() string {
 func (l *Layout) String() string {
 	switch *l {
 	case LayoutRAID0:
-		return "RAID-0"
+		return "0"
 	case LayoutRAID1:
-		return "RAID-1"
+		return "1"
 	case LayoutRAID5:
-		return "RAID-5"
+		return "5"
 	case LayoutRAID6:
-		return "RAID-6"
+		return "6"
 	case LayoutRAID10:
-		return "RAID-10"
+		return "1+0"
 	case LayoutRAID60:
-		return "RAID-60"
+		return "60"
 	default:
 		return fmt.Sprintf("Unknown layout code %s", string(*l))
 	}
